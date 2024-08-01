@@ -1,0 +1,31 @@
+step-1 : read from yahoo_fin and crete diff tables for ui services reporting and monitoring.
+   table-1 stocks tables
+   CREATE TABLE IF NOT EXISTS stocks (
+                       id INTEGER PRIMARY KEY AUTOINCREMENT,
+                       symbol TEXT,
+                       date TEXT,
+                       open REAL,
+                       high REAL,
+                       low REAL,
+                       close REAL,
+                       volume INTEGER
+                       )
+
+    tables for ui services
+
+         CREATE TABLE IF NOT EXISTS symbol_performance (
+                             symbol TEXT PRIMARY KEY,
+                             daily_closing_price REAL,
+                             percentage_change_1day REAL,
+                             percentage_change_30days REAL,
+                             percentage_change_365days REAL
+                         )
+
+         CREATE TABLE IF NOT EXISTS top_losers (
+                             symbol TEXT PRIMARY KEY,
+                             percentage_change_1day REAL
+                         )
+         CREATE TABLE IF NOT EXISTS top_gainers (
+                             symbol TEXT PRIMARY KEY,
+                             percentage_change_1day REAL
+                         )

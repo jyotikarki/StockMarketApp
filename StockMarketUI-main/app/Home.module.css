@@ -1,0 +1,64 @@
+/* Home.module.css */
+
+.container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5; /* Light gray background for better contrast */
+    color: #333; /* Dark gray text for readability */
+}
+
+.heading {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #222; /* Slightly darker gray for the main heading */
+}
+
+.section {
+    margin-bottom: 2rem;
+}
+
+.title {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #111; /* Darker color for section titles */
+}
+
+.list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.listItem {
+    padding: 10px;
+    border-bottom: 1px solid #ddd; /* Light gray border for separation */
+    background-color: #fff; /* White background for list items */
+}
+
+.listItem:last-child {
+    border-bottom: none;
+}
+
+.itemKey {
+    font-weight: bold;
+}
+
+.latestPrice {
+    color: #007bff; /* Blue color for the latest price */
+    font-weight: bold;
+}
+
+.gainer {
+    color: #28a745; /* Green color for gains */
+}
+
+.loser {
+    color: #dc3545; /* Red color for losses */
+}
+
+.itemDate {
+    font-style: italic;
+}
+
+.itemValue {
+    font-weight: normal;
+}
