@@ -1,11 +1,9 @@
-// app/page.tsx
-
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import axios from '../utils/axiosInstance';
 import styled from 'styled-components';
-
 
 // Define styles for the dashboard container
 const DashboardContainer = styled.div`
@@ -72,11 +70,21 @@ const BoldText = styled.span`
 `;
 
 const Dashboard = () => {
+  const router = useRouter();
   const [symbolPerformance, setSymbolPerformance] = useState([]);
   const [topLosers, setTopLosers] = useState([]);
   const [topGainers, setTopGainers] = useState([]);
 
   useEffect(() => {
+    // Check if the user is authenticated
+    const isAuthenticated = localStorage.getItem('authenticated') === 'true';
+
+    if (!isAuthenticated) {
+      router.push('/login'); // Redirect to login page if not authenticated
+      return; // Stop further execution
+    }
+
+    // Fetch data if authenticated
     const fetchSymbolPerformance = async () => {
       try {
         const response = await axios.get('/api/symbol_performance/');
@@ -89,7 +97,7 @@ const Dashboard = () => {
     const fetchTopLosers = async () => {
       try {
         const response = await axios.get('/api/top_losers/');
-        setTopLosers(response.data);
+        setTopLosers(response.data.reverse()); // Reverse the order of top losers
       } catch (error) {
         console.error('Error fetching top losers data:', error);
       }
@@ -107,7 +115,7 @@ const Dashboard = () => {
     fetchSymbolPerformance();
     fetchTopLosers();
     fetchTopGainers();
-  }, []);
+  }, [router]);
 
   // Helper function to format numbers to two decimal places
   const formatPercentage = (value: number) => value.toFixed(2);
@@ -142,26 +150,6 @@ const Dashboard = () => {
         </tbody>
       </Table>
 
-      <SectionTitle><BoldText>Top Losers</BoldText></SectionTitle>
-      <Table>
-        <thead>
-          <tr>
-            <Th>Company Code</Th>
-            <Th>% Change (24 hr)</Th>
-          </tr>
-        </thead>
-        <tbody>
-          {topLosers.map((item) => (
-            <Tr key={item.symbol}>
-              <Td>{item.symbol}</Td>
-              <Td isNegative={item.percentage_change_1day < 0}>
-                {formatPercentage(item.percentage_change_1day)}
-              </Td>
-            </Tr>
-          ))}
-        </tbody>
-      </Table>
-
       <SectionTitle><BoldText>Top Gainers</BoldText></SectionTitle>
       <Table>
         <thead>
@@ -172,6 +160,26 @@ const Dashboard = () => {
         </thead>
         <tbody>
           {topGainers.map((item) => (
+            <Tr key={item.symbol}>
+              <Td>{item.symbol}</Td>
+              <Td isNegative={item.percentage_change_1day < 0}>
+                {formatPercentage(item.percentage_change_1day)}
+              </Td>
+            </Tr>
+          ))}
+        </tbody>
+      </Table>
+
+      <SectionTitle><BoldText>Top Losers</BoldText></SectionTitle>
+      <Table>
+        <thead>
+          <tr>
+            <Th>Company Code</Th>
+            <Th>% Change (24 hr)</Th>
+          </tr>
+        </thead>
+        <tbody>
+          {topLosers.map((item) => (
             <Tr key={item.symbol}>
               <Td>{item.symbol}</Td>
               <Td isNegative={item.percentage_change_1day < 0}>
