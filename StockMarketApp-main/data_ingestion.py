@@ -4,7 +4,9 @@ import datetime
 from datetime import datetime, timedelta
 
 def fetch_daily_closing_price(symbol):
+
     conn = sqlite3.connect('/app/db.sqlite3')
+
     c = conn.cursor()
     query = """
     SELECT date, close 
@@ -19,7 +21,9 @@ def fetch_daily_closing_price(symbol):
     return result
 
 def fetch_price_change_percentage(symbol, days):
+
     conn = sqlite3.connect('/app/db.sqlite3')
+
     c = conn.cursor()
     end_date = datetime.now()
     start_date = (end_date - timedelta(days=days)).strftime('%Y-%m-%d')
@@ -40,7 +44,9 @@ def fetch_price_change_percentage(symbol, days):
     return None
 
 def fetch_top_gainers_losers(period_days):
+
     conn = sqlite3.connect('/app/db.sqlite3')
+
     c = conn.cursor()
     end_date = datetime.now()
     start_date = (end_date - timedelta(days=period_days)).strftime('%Y-%m-%d')
@@ -130,7 +136,9 @@ def insert_symbol_performance(symbol, daily_closing_price, change_1day, change_3
     conn.close()
 
 def insert_top_losers(symbol, change_1day):
+
     conn = sqlite3.connect('/app/db.sqlite3')
+
     c = conn.cursor()
 
     c.execute('''INSERT OR REPLACE INTO myapp_toploser (symbol, percentage_change_1day) 
