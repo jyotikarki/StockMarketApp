@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: stock-data-ingestion
+spec:
+  schedule: "0 * * * *"  # Run every hour
+  jobTemplate:
+    spec:
+      backoffLimit: 6
+      template:
+        spec:
+          containers:
+            - name: stock-data-container
+              image: jyotikarki/stock-backend2:latest
+              command: ["/bin/sh", "-c", "python /app/data_ingestion.py"]
+          restartPolicy: OnFailure
